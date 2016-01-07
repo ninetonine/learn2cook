@@ -1,0 +1,88 @@
+knife bootstrap venu-rachakonda2b.mylabserver.com -x root -N centosnode1
+knife cookbook create apache
+knife cookbook upload apache
+knife node add run_list centosnode1 "recipe[apache]"
+knife --help
+knife node run_list add centosnode1 "recipe[apache]"
+knife cookbook upload cookbook
+knife cookbook create security
+knife node run_list add centosnode1 -b "recipe[apache]" "recipe[secuity]"
+knife cookbook upload security
+knife node run_list add centosnode1 -b "recipe[apache]" "recipe[security]"
+knife -h
+knife node run_list remove centosnode1 "recipe[secuity]"
+knife cookbook create php
+knife cookbook upload php
+knife bootstrap anthony3.mylabserver.com -x root -N ubunode1
+knife bootstrap venu-rachakonda3.mylabserver.com -x root -N ubunode1
+knife node run_list add ubunode1 "recipe[apache]"
+knife node run_list add ubunode1 -b "recipe[apache]" "recipe[security]"
+knife node show centosnode1
+knife node show centosnode1 -a apache
+knife node show centosnode1 -a httpd
+knife node show ubunode1 -a httpd
+knife node show ubunode1 -a apache
+knife node show ubunode1 -a apache.sites
+knife node show ubunode1 -a apache2.sites
+knife node show centosnode1 -a apache2.sites
+knife node show centosnode1 -a apache.sites
+knife node show ubunode1 -a memory
+knife node show ubunode1 -a memory.swap
+knife node show ubunode1 -a memory.swap.free
+knife search node "os:linux"
+knife search node "os:linux" -a
+knife search node "os:linux" -a platform
+knife search node "platform:*" 
+knife search node "platform:ubuntu" 
+knife search node "platform:ubuntu" -a memory.swap.total
+knife search node "kernel_release"
+knife search node "kernel_release:3.2"
+knife search node "kernel_release:3.2*"
+knife search node "kernel_release:3.2*" -a kernel-release
+knife search node "kernel_release:3.2*" -a kernel.release
+knife search node "kernel_release:*" -a kernel.release
+knife search node "os:linux AND platform:ubuntu" -a kernel
+knife search node "os:linux AND platform_family:*" -a platform
+knife search node "os:linux AND platform_family:*" -a platform.family
+knife search node "os:linux AND platform_family:redhat" -a platform.family
+knife search node "os:linux AND platform_family:rhel" -a platform.family
+knife search node "os:linux AND platform_family:debian" -a platform.family
+knife data_bag create users
+knife data_bag create groupds
+knife data_bag create groups
+knife data_bag remove groupds
+knife data_bag delete groupds
+knife data_bag from file users admin.json
+knife data_bag from file groups sudoers.json
+knife search users "id:admin"
+knife search users "id:admin" -a home
+knife cookbook create localusers
+knife cookbook upload localusers
+knife node run_list add centosnode1 recipe["localusers"]
+knife environment list -w
+knife environment from file dev.rb
+knife environment from file prod.rb
+knife environment compare dev
+knife environment compare development
+knife environment compare development prod
+knife environment compare --all
+knife environment delete development
+knife envrionment show dev
+knife envrionment show development
+knife environment show development
+knife role from file webserver.rb 
+knife node run_list add centosnode1 "role[webserver]"
+knife role file from webserver.rb 
+knife role from  file webserver.rb 
+knife cookbook create mysql
+knife cookbook upload mysql
+knife bootstrap venu-rachakonda4.mylabserver.com -x root 
+knife role from file database.rb 
+knife node run_list add venu-rachakonda4.mylabserver.com "role[database]"
+knife role from file base.rb 
+knife cookbook upload chef-client
+knife cookbook upload chef_handler
+knife cookbook upload windows
+knife cookbook upload logrotate
+knife cookbook upload cron
+knife cookbook upload chef-client
